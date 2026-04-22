@@ -3,183 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melek Store | Exclusive Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <title>Melek Store | Elevate Your Essence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --obsidian: #1A1A1B;
             --gold: #D4AF37;
+            --gold-hover: #B8962E;
             --alabaster: #F9F9F9;
             --white: #ffffff;
-            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--alabaster); color: var(--obsidian); overflow-x: hidden; }
-
-        /* Navigation */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 5%; background: var(--white);
-            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: 3px; color: var(--obsidian); cursor: pointer; }
-        .nav-btns { display: flex; gap: 20px; align-items: center; }
-        .admin-link { font-size: 0.8rem; color: var(--gold); cursor: pointer; text-decoration: underline; }
-
-        /* Catalog Section */
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .section-title { text-align: center; margin-bottom: 40px; font-size: 2rem; letter-spacing: 1px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--alabaster); color: var(--obsidian); line-height: 1.6; }
         
-        .products-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
+        /* Typography */
+        h1, h2, .logo { font-family: 'Playfair Display', serif; }
 
-        .product-card {
-            background: var(--white); padding: 15px; border-radius: 12px;
-            transition: var(--transition); text-align: center; position: relative;
+        /* Header & Navigation */
+        header {
+            background: var(--white); padding: 1rem 5%; position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
-        .product-name { font-weight: 700; margin-bottom: 5px; }
-        .product-price { color: var(--gold); font-weight: 600; font-size: 1.2rem; }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-icon { background: var(--obsidian); color: var(--gold); padding: 5px 12px; font-weight: bold; border-radius: 4px; font-size: 1.5rem; }
+        .logo-text { font-size: 1.4rem; letter-spacing: 1px; font-weight: 700; }
         
-        /* Admin Modal */
-        #admin-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: var(--white); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
-        }
-        input, select, button {
-            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;
-        }
-        .btn-gold { background: var(--gold); color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-obsidian { background: var(--obsidian); color: white; border: none; font-weight: bold; cursor: pointer; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--obsidian); font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--gold); }
 
-        /* Cart Notification */
-        #cart-counter { background: var(--gold); color: white; padding: 2px 8px; border-radius: 50%; font-size: 0.7rem; }
+        /* Hero Section */
+        .hero {
+            height: 60vh; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: var(--white); text-align: center; padding: 0 20px;
+        }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; font-weight: 300; }
+        .cta-btn { background: var(--gold); color: var(--white); padding: 15px 40px; text-decoration: none; font-weight: 600; border-radius: 2px; transition: var(--transition); border: none; cursor: pointer; }
+        .cta-btn:hover { background: var(--gold-hover); transform: scale(1.05); }
+
+        /* Catalog Grid */
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+        .product-card { background: var(--white); border-radius: 8px; overflow: hidden; transition: var(--transition); position: relative; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
+        .product-img { width: 100%; height: 400px; object-fit: cover; }
+        .product-info { padding: 20px; text-align: center; }
+        .p-category { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
+        .p-title { font-size: 1.1rem; margin: 5px 0; font-weight: 600; }
+        .p-price { font-size: 1.2rem; color: var(--obsidian); font-weight: 700; }
+
+        /* Admin Controls on Card */
+        .admin-badge { position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; }
+        .edit-btn, .delete-btn { padding: 5px 10px; font-size: 0.7rem; border: none; cursor: pointer; border-radius: 3px; color: white; }
+        .edit-btn { background: #2196F3; }
+        .delete-btn { background: #f44336; }
+
+        /* Footer & Contact */
+        footer { background: var(--obsidian); color: var(--white); padding: 60px 5% 20px; margin-top: 80px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .contact-box h3 { color: var(--gold); margin-bottom: 20px; }
+        .phone-link { display: inline-block; background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; text-decoration: none; margin-top: 15px; transition: var(--transition); }
+        .phone-link:hover { background: var(--gold); color: var(--white); }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--white); padding: 40px; border-radius: 8px; width: 100%; max-width: 500px; position: relative; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; outline: none; }
+        .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } /* Simplified for mobile demo */
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">MELEK STORE</div>
-        <div class="nav-btns">
-            <span class="admin-link" onclick="openAdmin()">Admin Access</span>
-            <div id="cart-icon">🛒 <span id="cart-counter">0</span></div>
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">M</div>
+            <div class="logo-text">MELEK STORE</div>
         </div>
-    </nav>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#catalog">Catalog</a>
+            <a href="#contact">Contact</a>
+            <a href="javascript:void(0)" onclick="openAdmin()" style="color: var(--gold);">Admin Panel</a>
+        </nav>
+    </header>
 
-    <div class="container">
-        <h2 class="section-title">New Arrivals</h2>
-        <div class="products-grid" id="catalog">
+    <section class="hero">
+        <h1>Elevate Your Essence</h1>
+        <p>Premium curation for the modern individual.</p>
+        <a href="#catalog" class="cta-btn">Shop Collection</a>
+    </section>
+
+    <div class="container" id="catalog">
+        <div class="section-header">
+            <h2>Current Collection</h2>
+            <p id="item-count">Showing 0 pieces</p>
+        </div>
+        <div class="products-grid" id="product-display">
             </div>
     </div>
 
-    <div id="admin-modal">
-        <div class="modal-content" id="login-section">
-            <h3>Admin Login</h3>
-            <input type="password" id="admin-pass" placeholder="Enter Password">
-            <button class="btn-obsidian" onclick="checkPass()">Login</button>
-            <button onclick="closeAdmin()" style="background:none; border:none; color:red; cursor:pointer;">Cancel</button>
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2 style="color: var(--gold);">MELEK</h2>
+                <p>Designed for the ambitious. Crafted for the elegant.</p>
+            </div>
+            <div class="contact-box">
+                <h3>Customer Service</h3>
+                <p>Questions? Reach out via WhatsApp or Phone:</p>
+                <a href="tel:0984071320" class="phone-link">📞 0984071320</a>
+            </div>
         </div>
+        <p style="text-align: center; font-size: 0.8rem; opacity: 0.5; border-top: 1px solid #333; padding-top: 20px;">
+            &copy; 2026 Melek Store. All rights reserved.
+        </p>
+    </footer>
 
-        <div class="modal-content" id="upload-section" style="display: none;">
-            <h3>Upload New Garment</h3>
-            <input type="text" id="p-name" placeholder="Garment Name (e.g. Silk Shirt)">
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModals()">&times;</span>
+            <h2 style="margin-bottom: 20px;">Admin Login</h2>
+            <input type="password" id="admin-password" placeholder="Enter Access Code">
+            <button class="cta-btn" style="width: 100%;" onclick="verifyAdmin()">Enter Management</button>
+        </div>
+    </div>
+
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModals()">&times;</span>
+            <h2 id="modal-title">Add New Product</h2>
+            <input type="hidden" id="edit-index">
+            <input type="text" id="p-name" placeholder="Product Name">
+            <input type="text" id="p-category" placeholder="Category (e.g. Summer Wear)">
             <input type="number" id="p-price" placeholder="Price ($)">
-            <input type="text" id="p-img" placeholder="Image URL (Paste link here)">
-            <p style="font-size: 0.7rem; color: #888;">Note: Upload image to a service like Imgur and paste the link here.</p>
-            <button class="btn-gold" onclick="addProduct()">Save to Catalog</button>
-            <button class="btn-obsidian" onclick="logoutAdmin()">Logout</button>
+            <input type="text" id="p-img" placeholder="Image Link (URL)">
+            <button class="cta-btn" id="save-btn" style="width: 100%; margin-top: 10px;" onclick="saveProduct()">Save Product</button>
         </div>
     </div>
 
     <script>
-        let products = JSON.parse(localStorage.getItem('melek_products')) || [];
+        // Database Initialization
+        let products = JSON.parse(localStorage.getItem('melek_db')) || [];
+        let isAdminLoggedIn = false;
 
-        // Load Catalog on Start
-        function renderCatalog() {
-            const catalog = document.getElementById('catalog');
-            catalog.innerHTML = '';
-            
-            if(products.length === 0) {
-                catalog.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No garments available. Access Admin to upload.</p>';
-            }
+        // UI Core
+        function renderProducts() {
+            const display = document.getElementById('product-display');
+            const countLabel = document.getElementById('item-count');
+            display.innerHTML = '';
+            countLabel.innerText = `Showing ${products.length} pieces`;
 
-            products.forEach((p, index) => {
-                catalog.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.img}" alt="${p.name}">
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-price">$${p.price}</div>
-                        <button class="btn-obsidian" onclick="addToCart()">Add to Bag</button>
-                        ${sessionStorage.getItem('isAdmin') ? `<button onclick="deleteProduct(${index})" style="color:red; background:none; border:none; margin-top:10px; cursor:pointer;">Delete</button>` : ''}
+            products.forEach((product, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    ${isAdminLoggedIn ? `
+                    <div class="admin-badge">
+                        <button class="edit-btn" onclick="openEdit(${index})">Edit</button>
+                        <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
+                    </div>` : ''}
+                    <img src="${product.img}" class="product-img" onerror="this.src='https://via.placeholder.com/400x500?text=Image+Not+Found'">
+                    <div class="product-info">
+                        <p class="p-category">${product.category}</p>
+                        <p class="p-title">${product.name}</p>
+                        <p class="p-price">$${product.price}</p>
                     </div>
                 `;
+                display.appendChild(card);
             });
+            
+            // If admin is logged in, show an "Add New" button card
+            if(isAdminLoggedIn) {
+                const addCard = document.createElement('div');
+                addCard.className = 'product-card';
+                addCard.style.cssText = "border: 2px dashed var(--gold); display: flex; align-items: center; justify-content: center; min-height: 400px; cursor: pointer;";
+                addCard.innerHTML = `<h3 style="color: var(--gold)" onclick="openAdd()">+ Add Product</h3>`;
+                display.appendChild(addCard);
+            }
         }
 
-        // Admin Logic
-        function openAdmin() { document.getElementById('admin-modal').style.display = 'flex'; }
-        function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
-
-        function checkPass() {
-            const pass = document.getElementById('admin-pass').value;
+        // Admin Auth
+        function openAdmin() { document.getElementById('login-modal').style.display = 'flex'; }
+        
+        function verifyAdmin() {
+            const pass = document.getElementById('admin-password').value;
             if(pass === "2711") {
-                sessionStorage.setItem('isAdmin', 'true');
-                showUploadForm();
+                isAdminLoggedIn = true;
+                closeModals();
+                renderProducts();
+                alert("Management Mode Active");
             } else {
-                alert("Incorrect Password");
+                alert("Unauthorized");
             }
         }
 
-        function showUploadForm() {
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('upload-section').style.display = 'block';
-            renderCatalog();
+        // Product Management
+        function openAdd() {
+            document.getElementById('modal-title').innerText = "Add New Product";
+            document.getElementById('edit-index').value = "";
+            document.getElementById('product-modal').style.display = 'flex';
         }
 
-        function addProduct() {
-            const name = document.getElementById('p-name').value;
-            const price = document.getElementById('p-price').value;
-            const img = document.getElementById('p-img').value;
+        function openEdit(index) {
+            const p = products[index];
+            document.getElementById('modal-title').innerText = "Edit Product";
+            document.getElementById('edit-index').value = index;
+            document.getElementById('p-name').value = p.name;
+            document.getElementById('p-category').value = p.category;
+            document.getElementById('p-price').value = p.price;
+            document.getElementById('p-img').value = p.img;
+            document.getElementById('product-modal').style.display = 'flex';
+        }
 
-            if(name && price && img) {
-                products.push({name, price, img});
-                localStorage.setItem('melek_products', JSON.stringify(products));
-                alert("Garment added successfully!");
-                renderCatalog();
-                // Clear inputs
-                document.getElementById('p-name').value = '';
-                document.getElementById('p-price').value = '';
-                document.getElementById('p-img').value = '';
-            } else {
-                alert("Please fill all fields");
+        function saveProduct() {
+            const index = document.getElementById('edit-index').value;
+            const newProduct = {
+                name: document.getElementById('p-name').value,
+                category: document.getElementById('p-category').value,
+                price: document.getElementById('p-price').value,
+                img: document.getElementById('p-img').value
+            };
+
+            if(!newProduct.name || !newProduct.price || !newProduct.img) {
+                alert("Please fill essential fields");
+                return;
             }
+
+            if(index === "") {
+                products.push(newProduct);
+            } else {
+                products[index] = newProduct;
+            }
+
+            localStorage.setItem('melek_db', JSON.stringify(products));
+            closeModals();
+            renderProducts();
+            clearInputs();
         }
 
         function deleteProduct(index) {
-            products.splice(index, 1);
-            localStorage.setItem('melek_products', JSON.stringify(products));
-            renderCatalog();
+            if(confirm("Permanently remove this garment?")) {
+                products.splice(index, 1);
+                localStorage.setItem('melek_db', JSON.stringify(products));
+                renderProducts();
+            }
         }
 
-        function logoutAdmin() {
-            sessionStorage.removeItem('isAdmin');
-            location.reload();
+        // Helpers
+        function closeModals() {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
         }
 
-        function addToCart() {
-            let count = parseInt(document.getElementById('cart-counter').innerText);
-            document.getElementById('cart-counter').innerText = count + 1;
+        function clearInputs() {
+            document.querySelectorAll('#product-modal input').forEach(i => i.value = "");
         }
 
-        // Initial Render
-        renderCatalog();
+        // Initial Load
+        renderProducts();
     </script>
 </body>
 </html>
