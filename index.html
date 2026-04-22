@@ -3,32 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melek Store | Modern Elegance</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Melek Store | Exclusive Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #1A1A1B;
+            --gold: #D4AF37;
+            --alabaster: #F9F9F9;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--alabaster); color: var(--obsidian); overflow-x: hidden; }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; background: var(--white);
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { font-weight: 800; font-size: 1.5rem; letter-spacing: 3px; color: var(--obsidian); cursor: pointer; }
+        .nav-btns { display: flex; gap: 20px; align-items: center; }
+        .admin-link { font-size: 0.8rem; color: var(--gold); cursor: pointer; text-decoration: underline; }
+
+        /* Catalog Section */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 40px; font-size: 2rem; letter-spacing: 1px; }
+        
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--white); padding: 15px; border-radius: 12px;
+            transition: var(--transition); text-align: center; position: relative;
+        }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        .product-name { font-weight: 700; margin-bottom: 5px; }
+        .product-price { color: var(--gold); font-weight: 600; font-size: 1.2rem; }
+        
+        /* Admin Modal */
+        #admin-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: var(--white); padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+        }
+        input, select, button {
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;
+        }
+        .btn-gold { background: var(--gold); color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-obsidian { background: var(--obsidian); color: white; border: none; font-weight: bold; cursor: pointer; }
+
+        /* Cart Notification */
+        #cart-counter { background: var(--gold); color: white; padding: 2px 8px; border-radius: 50%; font-size: 0.7rem; }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">MELEK</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#catalog">Catalog</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="cart-icon">🛒 <span id="cart-count">0</span></div>
-        </nav>
-    </header>
 
-    <main>
-        <section id="home" class="hero">
-            <h1>Elevate Your Style</h1>
-            <button class="btn-shop">Explore Collection</button>
-        </section>
+    <nav>
+        <div class="logo">MELEK STORE</div>
+        <div class="nav-btns">
+            <span class="admin-link" onclick="openAdmin()">Admin Access</span>
+            <div id="cart-icon">🛒 <span id="cart-counter">0</span></div>
+        </div>
+    </nav>
 
-        <section id="catalog" class="products">
-            </section>
-    </main>
+    <div class="container">
+        <h2 class="section-title">New Arrivals</h2>
+        <div class="products-grid" id="catalog">
+            </div>
+    </div>
 
-    <script src="script.js"></script>
+    <div id="admin-modal">
+        <div class="modal-content" id="login-section">
+            <h3>Admin Login</h3>
+            <input type="password" id="admin-pass" placeholder="Enter Password">
+            <button class="btn-obsidian" onclick="checkPass()">Login</button>
+            <button onclick="closeAdmin()" style="background:none; border:none; color:red; cursor:pointer;">Cancel</button>
+        </div>
+
+        <div class="modal-content" id="upload-section" style="display: none;">
+            <h3>Upload New Garment</h3>
+            <input type="text" id="p-name" placeholder="Garment Name (e.g. Silk Shirt)">
+            <input type="number" id="p-price" placeholder="Price ($)">
+            <input type="text" id="p-img" placeholder="Image URL (Paste link here)">
+            <p style="font-size: 0.7rem; color: #888;">Note: Upload image to a service like Imgur and paste the link here.</p>
+            <button class="btn-gold" onclick="addProduct()">Save to Catalog</button>
+            <button class="btn-obsidian" onclick="logoutAdmin()">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem('melek_products')) || [];
+
+        // Load Catalog on Start
+        function renderCatalog() {
+            const catalog = document.getElementById('catalog');
+            catalog.innerHTML = '';
+            
+            if(products.length === 0) {
+                catalog.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No garments available. Access Admin to upload.</p>';
+            }
+
+            products.forEach((p, index) => {
+                catalog.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.img}" alt="${p.name}">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price">$${p.price}</div>
+                        <button class="btn-obsidian" onclick="addToCart()">Add to Bag</button>
+                        ${sessionStorage.getItem('isAdmin') ? `<button onclick="deleteProduct(${index})" style="color:red; background:none; border:none; margin-top:10px; cursor:pointer;">Delete</button>` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        // Admin Logic
+        function openAdmin() { document.getElementById('admin-modal').style.display = 'flex'; }
+        function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
+
+        function checkPass() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === "2711") {
+                sessionStorage.setItem('isAdmin', 'true');
+                showUploadForm();
+            } else {
+                alert("Incorrect Password");
+            }
+        }
+
+        function showUploadForm() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('upload-section').style.display = 'block';
+            renderCatalog();
+        }
+
+        function addProduct() {
+            const name = document.getElementById('p-name').value;
+            const price = document.getElementById('p-price').value;
+            const img = document.getElementById('p-img').value;
+
+            if(name && price && img) {
+                products.push({name, price, img});
+                localStorage.setItem('melek_products', JSON.stringify(products));
+                alert("Garment added successfully!");
+                renderCatalog();
+                // Clear inputs
+                document.getElementById('p-name').value = '';
+                document.getElementById('p-price').value = '';
+                document.getElementById('p-img').value = '';
+            } else {
+                alert("Please fill all fields");
+            }
+        }
+
+        function deleteProduct(index) {
+            products.splice(index, 1);
+            localStorage.setItem('melek_products', JSON.stringify(products));
+            renderCatalog();
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('isAdmin');
+            location.reload();
+        }
+
+        function addToCart() {
+            let count = parseInt(document.getElementById('cart-counter').innerText);
+            document.getElementById('cart-counter').innerText = count + 1;
+        }
+
+        // Initial Render
+        renderCatalog();
+    </script>
 </body>
 </html>
